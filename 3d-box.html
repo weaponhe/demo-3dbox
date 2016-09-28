@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML>
+<HEAD>
+    <TITLE>Comparison of positioning schemes</TITLE>
+</HEAD>
+<style>
+
+    #container {
+        position: relative;
+        width: 800px;
+        /*height: 400px;*/
+        margin: 100px auto;
+        padding: 10px;
+        perspective: 1000px;
+        color: #FFF;
+        text-align: center;
+    }
+
+    #bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 5px;
+        background: #333;
+        transition: all 0.6s ease-in-out;
+        z-index: -1;
+    }
+
+    #fg1, #fg2, #fg3 {
+        margin: 70px 0;
+        text-align: center;
+        color: #FFF;
+    }
+
+
+</style>
+<body>
+<div id="container">
+    <div id="bg">
+    </div>
+    <h1 id="fg1">
+        Hello world
+    </h1>
+    <h1 id="fg2">
+        Hello world
+    </h1>
+    <h1 id="fg3">
+        Hello world
+    </h1>
+</div>
+<script>
+    function getOffsetLeft(ele) {
+        var offsetSum = ele.offsetLeft;
+        var cur = ele.offsetParent;
+        while (cur) {
+            offsetSum += cur.offsetLeft;
+            cur = cur.offsetParent;
+        }
+        return offsetSum;
+    }
+    function getOffsetTop(ele) {
+        var offsetSum = ele.offsetTop;
+        var cur = ele.offsetParent;
+        while (cur) {
+            offsetSum += cur.offsetTop;
+            cur = cur.offsetParent;
+        }
+        return offsetSum;
+    }
+    var container = document.getElementById('container'),
+            bg = document.getElementById('bg'),
+            fg2 = document.getElementById('fg2'),
+            fg3 = document.getElementById('fg3'),
+            shadowWidth = 50,
+            shadowColor = 'rgba(0,0,0,0.3)',
+            shadowXMax = 20,
+            shadowYMax = 14,
+            rotateXMax = 12,
+            rotateYMax = 10,
+            halfWidth = bg.offsetWidth / 2,
+            halfHeight = bg.offsetHeight / 2,
+            offsetLeft = getOffsetLeft(container),
+            offsetTop = getOffsetTop(container);
+    container.onmousemove = function (e) {
+        var X = e.pageX - offsetLeft;
+        var Y = e.pageY - offsetTop;
+        var offsetXMidlle = X - halfWidth;
+        var offsetYMidlle = Y - halfHeight;
+        var shadowOffsetX = -(shadowXMax / halfWidth) * offsetXMidlle;
+        var shadowOffsetY = -(shadowYMax / halfHeight) * offsetYMidlle;
+        var rotateY = (rotateYMax / halfWidth) * offsetXMidlle;
+        var rotateX = -(rotateXMax / halfHeight) * offsetYMidlle;
+        bg.style.boxShadow = shadowOffsetX + 'px ' + shadowOffsetY + 'px ' + shadowWidth + 'px ' + shadowColor;
+        bg.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+        bg.style.transition = 'all 0.2s linear';
+        fg2.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+        fg2.style.transition = 'all 0.2s linear';
+        fg3.style.transform = 'rotateX(' + -rotateX + 'deg) rotateY(' + -rotateY + 'deg)';
+        fg3.style.transition = 'all 0.2s linear';
+    }
+    container.onmouseleave = function (e) {
+        bg.style.boxShadow = '0px 0px 0px';
+        bg.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        bg.style.transition = 'all 0.6s ease-in-out';
+        fg1.style.boxShadow = '0px 0px 0px';
+        fg1.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        fg1.style.transition = 'all 0.6s ease-in-out';
+        fg3.style.boxShadow = '0px 0px 0px';
+        fg3.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        fg3.style.transition = 'all 0.6s ease-in-out';
+    }
+</script>
+</body>
+</HTML>
