@@ -6,3 +6,6 @@ A 3D box which transforms as the mouse moves.
 
 ## github-oauth2-login
 A demo of oauth2.0 based login using [passport](https://github.com/jaredhanson/passport).
+
+## local-login
+A demo of local login using [passport](https://github.com/jaredhanson/passport).
