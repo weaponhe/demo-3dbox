@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Vue Markdown</title>
+    <link rel="stylesheet" href="css/github-markdown.css">
+</head>
+<style>
+    #editor{
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+    }
+    #input-area{
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 20px;
+        border: none;
+        border-right: 1px solid #333;
+        background-color: #f6f6f6;
+        resize: none;
+        outline: none;
+        font-size: 14px;
+    }
+    #marked-area{
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+</style>
+<script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+<script src="https://unpkg.com/marked@0.3.6"></script>
+<body>
+<div id="editor">
+    <textarea id="input-area" v-model:value="input"></textarea>
+    <div id="marked-area" class="markdown-body" v-html="compiledHTML"></div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#editor',
+        data: {
+            input: '# Hello'
+        },
+        computed: {
+            compiledHTML: function () {
+                return marked(this.input);
+            }
+        }
+    });
+</script>
+</body>
+</html>
